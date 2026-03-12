@@ -1850,10 +1850,25 @@ export default function Home() {
       }}
     />
 
-    {/* Apply dark mode styles to the main container */}
-    <div className="min-h-screen p-4 sm:p-6 flex flex-col items-center bg-gradient-to-b from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 font-[family-name:var(--font-geist-sans)] overflow-x-hidden">
-      {/* Apply dark mode styles to the header */}
-      <header className="w-full md:max-w-4xl text-center mt-6 mb-8 sm:mt-8 sm:mb-10 relative overflow-hidden">
+    {/* Modern horizontal workspace layout */}
+    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900 font-[family-name:var(--font-geist-sans)]">
+      {/* Minimal professional header */}
+      <header className="w-full py-3 px-6 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 sticky top-0 z-50">
+        <div className="max-w-[1800px] mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+              </svg>
+            </div>
+            <h1 className="text-lg font-bold text-gray-800 dark:text-gray-100">拼豆底稿生成器</h1>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">让像素创意属于每一个人</p>
+        </div>
+      </header>
+
+      {/* Original decorative header - temporarily disabled for redesign */}
+      {false && <header className="w-full md:max-w-4xl text-center mt-6 mb-8 sm:mt-8 sm:mb-10 relative overflow-hidden">
         {/* Adjust decorative background colors for dark mode */}
         <div className="absolute top-0 left-0 w-48 h-48 bg-blue-100 dark:bg-blue-900 rounded-full opacity-30 dark:opacity-20 blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-48 h-48 bg-pink-100 dark:bg-pink-900 rounded-full opacity-30 dark:opacity-20 blur-3xl"></div>
@@ -1998,236 +2013,164 @@ export default function Home() {
           </p>
 
         </div>
-      </header>
+      </header>}
 
-      {/* Apply dark mode styles to the main section */}
-      <main ref={mainRef} className="w-full md:max-w-4xl flex flex-col items-center space-y-5 sm:space-y-6 relative overflow-hidden">
-        {/* Apply dark mode styles to the Drop Zone */}
-        <div
-          onDrop={handleDrop} onDragOver={handleDragOver} onDragEnter={handleDragOver}
-          onClick={isMounted ? triggerFileInput : undefined}
-          className={`border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 sm:p-8 text-center ${isMounted ? 'cursor-pointer hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-gray-800' : 'cursor-wait'} transition-all duration-300 w-full md:max-w-md flex flex-col justify-center items-center shadow-sm hover:shadow-md`}
-          style={{ minHeight: '130px' }}
-        >
-          {/* Icon color */}
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 sm:h-12 sm:w-12 text-gray-400 dark:text-gray-500 mb-2 sm:mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-             <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-          </svg>
-          {/* Text color */}
-          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">拖放图片到此处，或<span className="font-medium text-blue-600 dark:text-blue-400">点击选择文件</span></p>
-          {/* Text color */}
-                          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">支持 JPG, PNG 图片格式，或 CSV 数据文件</p>
-        </div>
-
-        {/* Apply dark mode styles to the Tip Box */}
-        {!originalImageSrc && (
-          <div className="w-full md:max-w-md bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700 p-3 rounded-lg border border-blue-100 dark:border-gray-600 shadow-sm">
-            {/* Icon color */}
-            <p className="text-xs text-indigo-700 dark:text-indigo-300 flex items-start">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5 flex-shrink-0 text-blue-500 dark:text-blue-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      {/* New horizontal workspace layout */}
+      <div className="flex-1 max-w-[1800px] w-full mx-auto p-4 grid grid-cols-1 lg:grid-cols-[320px_1fr_300px] gap-4">
+        {/* Left sidebar - Controls */}
+        <aside className="space-y-4">
+          {/* Drop Zone - Moved to sidebar */}
+          {!originalImageSrc && (
+            <div
+              onDrop={handleDrop} onDragOver={handleDragOver} onDragEnter={handleDragOver}
+              onClick={isMounted ? triggerFileInput : undefined}
+              className={`border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center ${isMounted ? 'cursor-pointer hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-gray-800' : 'cursor-wait'} transition-all duration-300 flex flex-col justify-center items-center shadow-sm hover:shadow-md bg-white dark:bg-gray-800`}
+              style={{ minHeight: '160px' }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 dark:text-gray-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              {/* Text color */}
-              <span className="text-indigo-700 dark:text-indigo-300">小贴士：使用像素图进行转换前，请确保图片的边缘吻合像素格子的边界线，这样可以获得更精确的切割效果和更好的成品。</span>
-            </p>
-          </div>
-        )}
+              <p className="text-sm text-gray-500 dark:text-gray-400">拖放图片到此处</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">或点击选择文件</p>
+            </div>
+          )}
 
-                      <input type="file" accept="image/jpeg, image/png, .csv, text/csv, application/csv, text/plain" onChange={handleFileChange} ref={fileInputRef} className="hidden" />
+          {/* Tip Box */}
+          {!originalImageSrc && (
+            <div className="bg-blue-50 dark:bg-gray-800 p-3 rounded-lg border border-blue-100 dark:border-gray-600 shadow-sm">
+              <p className="text-xs text-blue-700 dark:text-blue-300 flex items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5 flex-shrink-0 text-blue-500 dark:text-blue-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>使用像素图进行转换前，请确保图片边缘吻合像素格子边界</span>
+              </p>
+            </div>
+          )}
 
-        {/* Controls and Output Area */}
-        {originalImageSrc && (
-          <div className="w-full flex flex-col items-center space-y-5 sm:space-y-6">
-            {/* ++ HIDE Control Row in manual mode ++ */}
-            {!isManualColoringMode && (
-              /* 修改控制面板网格布局 */
-              <div className="w-full md:max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white dark:bg-gray-800 p-4 sm:p-5 rounded-xl shadow-md border border-gray-100 dark:border-gray-700">
-                {/* Granularity Input */}
-                <div className="flex-1">
-                  {/* Label color */}
-                  <label htmlFor="granularityInput" className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
-                    横轴切割数量 (10-300):
-                  </label>
-                  <div className="flex items-center gap-2">
-                    {/* Input field styles */}
-                    <input
-                      type="number"
-                      id="granularityInput"
-                      value={granularityInput}
-                      onChange={handleGranularityInputChange}
-                      className="w-full p-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500 h-9 shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                      min="10"
-                      max="300"
-                    />
-                  </div>
-                </div>
+          {/* Controls Panel */}
+          {originalImageSrc && !isManualColoringMode && (
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 space-y-4">
+              <h3 className="font-semibold text-gray-800 dark:text-gray-200 border-b pb-2">参数设置</h3>
 
-                {/* Similarity Threshold Input */}
-                <div className="flex-1">
-                    {/* Label color */}
-                    <label htmlFor="similarityThresholdInput" className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
-                        颜色合并阈值 (0-100):
-                    </label>
-                    <div className="flex items-center gap-2">
-                      {/* Input field styles */}
-                      <input
-                        type="number"
-                        id="similarityThresholdInput"
-                        value={similarityThresholdInput}
-                        onChange={handleSimilarityThresholdInputChange}
-                        className="w-full p-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500 h-9 shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
-                        min="0"
-                        max="100"
-                      />
-                    </div>
-                </div>
+              {/* Granularity */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">横轴切割数量 (10-300)</label>
+                <input
+                  type="number"
+                  value={granularityInput}
+                  onChange={handleGranularityInputChange}
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200"
+                  min="10" max="300"
+                />
+              </div>
 
-                {/* 快捷按钮 */}
-                <div className="sm:col-span-2 flex flex-wrap items-center gap-2">
-                  <button
-                    onClick={handleConfirmParameters}
-                    className="h-9 bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 rounded-md whitespace-nowrap transition-colors duration-200 shadow-sm"
-                  >
-                    应用数字
-                  </button>
-                  <button
-                    onClick={handleAutoRemoveBackground}
-                    disabled={!mappedPixelData || !gridDimensions}
-                    className="inline-flex items-center justify-center h-9 px-3 text-sm rounded-md border border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-200 hover:bg-blue-100 dark:hover:bg-blue-800/40 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                  >
-                    一键去背景
-                  </button>
-                </div>
+              {/* Similarity Threshold */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">颜色合并阈值 (0-100)</label>
+                <input
+                  type="number"
+                  value={similarityThresholdInput}
+                  onChange={handleSimilarityThresholdInputChange}
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200"
+                  min="0" max="100"
+                />
+              </div>
 
-                {/* Pixelation Mode Selector */}
-                <div className="sm:col-span-2">
-                  {/* Label color */}
-                  <label htmlFor="pixelationModeSelect" className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">处理模式:</label>
-                  <div className="flex items-center gap-2">
-                    {/* Select field styles */}
-                    <select
-                      id="pixelationModeSelect"
-                      value={pixelationMode}
-                      onChange={handlePixelationModeChange}
-                      className="w-full p-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500 h-9 shadow-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200"
+              {/* Buttons */}
+              <div className="flex gap-2">
+                <button onClick={handleConfirmParameters} className="flex-1 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-md transition-colors">
+                  应用
+                </button>
+                <button
+                  onClick={handleAutoRemoveBackground}
+                  disabled={!mappedPixelData}
+                  className="flex-1 py-2 border border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm rounded-md hover:bg-blue-100 disabled:opacity-50 transition-colors"
+                >
+                  去背景
+                </button>
+              </div>
+
+              {/* Mode Selector */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">处理模式</label>
+                <select
+                  value={pixelationMode}
+                  onChange={handlePixelationModeChange}
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200"
+                >
+                  <option value={PixelationMode.Dominant}>卡通 (主色)</option>
+                  <option value={PixelationMode.Average}>真实 (平均)</option>
+                </select>
+              </div>
+
+              {/* Color System */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">色号系统</label>
+                <div className="flex flex-wrap gap-1">
+                  {colorSystemOptions.map(option => (
+                    <button
+                      key={option.key}
+                      onClick={() => setSelectedColorSystem(option.key as ColorSystem)}
+                      className={`px-2 py-1 text-xs rounded border transition-all ${
+                        selectedColorSystem === option.key
+                          ? 'bg-blue-500 text-white border-blue-500'
+                          : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-400'
+                      }`}
                     >
-                      <option value={PixelationMode.Dominant} className="bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200">卡通 (主色)</option>
-                      <option value={PixelationMode.Average} className="bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200">真实 (平均)</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* 色号系统选择器 */}
-                <div className="sm:col-span-2">
-                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">色号系统:</label>
-                  <div className="flex flex-wrap gap-2">
-                    {colorSystemOptions.map(option => (
-                      <button
-                        key={option.key}
-                        onClick={() => setSelectedColorSystem(option.key as ColorSystem)}
-                        className={`px-3 py-2 text-sm rounded-lg border transition-all duration-200 flex-shrink-0 ${
-                          selectedColorSystem === option.key
-                            ? 'bg-blue-500 text-white border-blue-500 shadow-md transform scale-105'
-                            : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-gray-600'
-                        }`}
-                      >
-                        {option.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 自定义色板按钮 */}
-                <div className="sm:col-span-2 mt-3">
-                  <button
-                    onClick={() => setIsCustomPaletteEditorOpen(true)}
-                    className="w-full py-2.5 px-3 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium rounded-lg shadow-sm transition-all duration-200 hover:shadow-md hover:from-blue-600 hover:to-purple-600"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clipRule="evenodd" />
-                    </svg>
-                    管理色板 ({Object.values(customPaletteSelections).filter(Boolean).length} 色)
-                  </button>
-                  {isCustomPalette && (
-                    <p className="text-xs text-center text-blue-500 dark:text-blue-400 mt-1.5">当前使用自定义色板</p>
-                  )}
+                      {option.name}
+                    </button>
+                  ))}
                 </div>
               </div>
-            )}
 
-            {/* 自定义色板编辑器弹窗 - 这是新增的部分 */}
-            {isCustomPaletteEditorOpen && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 flex justify-center items-center p-4">
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-                   {/* 添加隐藏的文件输入框 */}
-                   <input
-                    type="file"
-                    accept=".json"
-                    ref={importPaletteInputRef}
-                    onChange={handleImportPaletteFile}
-                    className="hidden"
-                  />
-                  <div className="p-4 sm:p-6 flex-1 overflow-y-auto"> {/* 让内容区域可滚动 */}
-                    <CustomPaletteEditor
-                      allColors={fullBeadPalette}
-                      currentSelections={customPaletteSelections}
-                      onSelectionChange={handleSelectionChange}
-                      onSaveCustomPalette={handleSaveCustomPalette}
-                      onClose={() => setIsCustomPaletteEditorOpen(false)}
-                      onExportCustomPalette={handleExportCustomPalette}
-                      onImportCustomPalette={triggerImportPalette}
-                      selectedColorSystem={selectedColorSystem}
-                    />
-                  </div>
-                </div>
+              {/* Custom Palette */}
+              <button
+                onClick={() => setIsCustomPaletteEditorOpen(true)}
+                className="w-full py-2 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clipRule="evenodd" />
+                </svg>
+                管理色板 ({Object.values(customPaletteSelections).filter(Boolean).length})
+              </button>
+            </div>
+          )}
+        </aside>
+
+        {/* Center - Main Canvas */}
+        <main ref={mainRef} className="flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
+          {/* File upload area when no image */}
+          {!originalImageSrc && (
+            <div className="flex-1 flex items-center justify-center p-8">
+              <div className="text-center">
+                <p className="text-gray-400 dark:text-gray-500 mb-4">请在左侧上传图片开始制作</p>
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Output Section */}
-            <div className="w-full md:max-w-2xl">
-              <canvas ref={originalCanvasRef} className="hidden"></canvas>
-
-              {/* ++ 手动编辑模式提示信息 ++ */}
-              {isManualColoringMode && mappedPixelData && gridDimensions && (
-                <div className="w-full mb-4 p-3 bg-blue-50 dark:bg-gray-800 rounded-lg shadow-sm border border-blue-100 dark:border-gray-700">
-                  <div className="flex justify-center">
-                    <div className="bg-blue-50 dark:bg-gray-700 border border-blue-100 dark:border-gray-600 rounded-lg p-2 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 text-xs text-gray-600 dark:text-gray-300 w-full sm:w-auto">
-                      <div className="flex items-center gap-1 w-full sm:w-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-blue-500 dark:text-blue-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                        <span>使用右上角菜单操作</span>
-                      </div>
-                      <span className="hidden sm:inline text-gray-300 dark:text-gray-500">|</span>
-                      <div className="flex items-center gap-1 w-full sm:w-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-blue-500 dark:text-blue-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        <span>推荐电脑操作，上色更精准</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+          {/* Canvas content - only show when has image */}
+          {originalImageSrc && (
+            <div className="flex-1 flex flex-col p-4">
+              {/* Hidden file input */}
+              <input type="file" accept="image/jpeg, image/png, .csv, text/csv, application/csv, text/plain" onChange={handleFileChange} ref={fileInputRef} className="hidden" />
 
               {/* Canvas Preview Container */}
-              {/* Apply dark mode styles */}
-              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-700">
-                {/* 大画布提示信息 */}
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 flex-1 min-h-0 overflow-hidden">
+                {/* Large canvas warning */}
                 {gridDimensions && gridDimensions.N > 100 && (
                   <div className="mb-3 p-2 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg text-xs text-blue-700 dark:text-blue-300 text-center">
                     <div className="flex items-center justify-center gap-1">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-blue-500 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span>高精度网格 ({gridDimensions.N}×{gridDimensions.M}) - 画布已自动放大，可左右滚动、放大查看精细图像</span>
+                      <span>高精度网格 ({gridDimensions.N}×{gridDimensions.M}) - 可滚动查看</span>
                     </div>
                   </div>
                 )}
-                 {/* Inner container background - 允许水平滚动以适应大画布 */}
-                <div className="flex justify-center mb-3 sm:mb-4 bg-gray-100 dark:bg-gray-700 p-2 rounded-lg overflow-x-auto overflow-y-hidden"
-                     style={{ minHeight: '150px' }}>
-                  {/* PixelatedPreviewCanvas component needs internal changes for dark mode drawing */}
+
+                {/* Canvas container */}
+                <div className="flex justify-center bg-gray-100 dark:bg-gray-700 p-2 rounded-lg overflow-auto" style={{ maxHeight: 'calc(100vh - 300px)' }}>
+                  <canvas ref={originalCanvasRef} className="hidden"></canvas>
                   <PixelatedPreviewCanvas
                     canvasRef={pixelatedCanvasRef}
                     mappedPixelData={mappedPixelData}
@@ -2239,216 +2182,108 @@ export default function Home() {
                   />
                 </div>
               </div>
-            </div>
-          </div> // This closes the main div started after originalImageSrc check
-        )}
 
-        {/* ++ HIDE Color Counts in manual mode ++ */}
-        {!isManualColoringMode && originalImageSrc && colorCounts && Object.keys(colorCounts).length > 0 && (
-          // Apply dark mode styles to color counts container
-          <div className="w-full md:max-w-2xl mt-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-100 dark:border-gray-700 color-stats-panel">
-            {/* Title color */}
-            <h3 className="text-lg font-semibold mb-1 text-gray-700 dark:text-gray-200 text-center">
-              去除杂色 
-            </h3>
-            {/* Subtitle color */}
-            <p className="text-xs text-center text-gray-500 dark:text-gray-400 mb-3">点击下方列表中的颜色可将其从可用列表中排除。总计: {totalBeadCount} 颗</p>
-            <ul className="space-y-1 max-h-60 overflow-y-auto pr-2 text-sm">
-              {Object.keys(colorCounts)
-                .sort(sortColorKeys)
-                .map((hexKey) => {
-                  // 现在key是hex值，需要通过hex获取对应色号系统的色号
-                  const displayColorKey = getColorKeyByHex(hexKey, selectedColorSystem);
-                  const isExcluded = excludedColorKeys.has(hexKey);
-                  const count = colorCounts[hexKey].count;
-                  const colorHex = colorCounts[hexKey].color;
-
-                  return (
-                    <li
-                      key={hexKey}
-                      onClick={() => handleToggleExcludeColor(hexKey)}
-                       // Apply dark mode styles for list items (normal and excluded)
-                      className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-colors ${ 
-                        isExcluded
-                          ? 'bg-red-100 dark:bg-red-900/50 hover:bg-red-200 dark:hover:bg-red-800/60 opacity-60 dark:opacity-70' // Darker red background for excluded
-                          : 'hover:bg-gray-100 dark:hover:bg-gray-700'
-                      }`}
-                      title={isExcluded ? `点击恢复 ${displayColorKey}` : `点击排除 ${displayColorKey}`}
-                    >
-                      <div className={`flex items-center space-x-2 ${isExcluded ? 'line-through' : ''}`}>
-                        {/* Adjust color swatch border */}
-                        <span
-                          className="inline-block w-4 h-4 rounded border border-gray-400 dark:border-gray-500 flex-shrink-0"
-                          style={{ backgroundColor: isExcluded ? '#666' : colorHex }} // Darker gray for excluded swatch
-                        ></span>
-                        {/* Adjust text color for key (normal and excluded) */}
-                        <span className={`font-mono font-medium ${isExcluded ? 'text-red-700 dark:text-red-400' : 'text-gray-800 dark:text-gray-200'}`}>{displayColorKey}</span>
-                      </div>
-                      {/* Adjust text color for count (normal and excluded) */}
-                      <span className={`text-xs ${isExcluded ? 'text-red-600 dark:text-red-400 line-through' : 'text-gray-600 dark:text-gray-300'}`}>{count} 颗</span>
-                    </li>
-                  );
-                })}
-            </ul>
-            {excludedColorKeys.size > 0 && (
-                <div className="mt-3">
+              {/* Action Buttons */}
+              {!isManualColoringMode && (
+                <div className="flex gap-3 pt-2">
                   <button
-                    onClick={() => setShowExcludedColors(prev => !prev)}
-                    className="w-full text-xs py-1.5 px-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors flex items-center justify-between"
+                    onClick={() => setIsManualColoringMode(true)}
+                    className="flex-1 py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all flex items-center justify-center gap-2"
                   >
-                    <span>已排除的颜色 ({excludedColorKeys.size})</span>
-                    <svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      className={`h-4 w-4 text-gray-500 dark:text-gray-400 transform transition-transform ${showExcludedColors ? 'rotate-180' : ''}`}
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                     </svg>
+                    手动编辑
                   </button>
-                  
-                  {showExcludedColors && (
-                    <div className="mt-2 border border-gray-200 dark:border-gray-700 rounded-md p-2 bg-gray-100 dark:bg-gray-800">
-                      <div className="max-h-40 overflow-y-auto">
-                        {Array.from(excludedColorKeys).length > 0 ? (
-                          <ul className="space-y-1">
-                            {Array.from(excludedColorKeys).sort(sortColorKeys).map(hexKey => {
-                              const colorData = fullBeadPalette.find(color => color.hex.toUpperCase() === hexKey.toUpperCase());
-                              return (
-                                <li key={hexKey} className="flex justify-between items-center p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded">
-                                  <div className="flex items-center space-x-2">
-                                    <span
-                                      className="inline-block w-4 h-4 rounded border border-gray-400 dark:border-gray-500 flex-shrink-0"
-                                      style={{ backgroundColor: colorData?.hex || hexKey }}
-                                    ></span>
-                                    <span className="font-mono text-xs text-gray-800 dark:text-gray-200">{getColorKeyByHex(hexKey, selectedColorSystem)}</span>
-                                  </div>
-                                  <button
-                                    onClick={() => {
-                                      // 实现恢复单个颜色的逻辑
-                                      const newExcludedKeys = new Set(excludedColorKeys);
-                                      newExcludedKeys.delete(hexKey);
-                                      setExcludedColorKeys(newExcludedKeys);
-                                      setRemapTrigger(prev => prev + 1);
-                                      setIsManualColoringMode(false);
-                                      setSelectedColor(null);
-                                      console.log(`Restored color: ${hexKey}`);
-                                    }}
-                                    className="text-xs py-0.5 px-2 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-800/40"
-                                  >
-                                    恢复
-                                  </button>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        ) : (
-                          <p className="text-xs text-center text-gray-500 dark:text-gray-400 py-2">
-                            没有排除的颜色
-                          </p>
-                        )}
-                      </div>
-                      
-                      <button
-                        onClick={() => {
-                          // 恢复所有颜色的逻辑
-                          setExcludedColorKeys(new Set());
-                          setRemapTrigger(prev => prev + 1);
-                          setIsManualColoringMode(false);
-                          setSelectedColor(null);
-                          console.log("Restored all excluded colors");
-                        }}
-                        className="mt-2 w-full text-xs py-1 px-2 bg-blue-500 hover:bg-blue-600 text-white rounded transition-colors"
-                      >
-                        一键恢复所有颜色
-                      </button>
-                    </div>
-                  )}
+                  <button
+                    onClick={() => setIsDownloadSettingsOpen(true)}
+                    disabled={!mappedPixelData}
+                    className="flex-1 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                    下载图纸
+                  </button>
                 </div>
-            )}
-          </div>
-        )} {/* ++ End of HIDE Color Counts ++ */}
-
-        {/* Message if palette becomes empty (Also hide in manual mode) */}
-         {!isManualColoringMode && originalImageSrc && activeBeadPalette.length === 0 && excludedColorKeys.size > 0 && (
-             // Apply dark mode styles to the warning box
-             <div className="w-full md:max-w-2xl mt-6 bg-yellow-100 dark:bg-yellow-900/50 p-4 rounded-lg shadow border border-yellow-200 dark:border-yellow-800/60 text-center text-sm text-yellow-800 dark:text-yellow-300">
-                 当前可用颜色过少或为空。请在上方统计列表中查看已排除的颜色并恢复部分，或更换色板。
-                 {excludedColorKeys.size > 0 && (
-                      // Apply dark mode styles to the inline "restore all" button
-                      <button
-                          onClick={() => {
-                            setShowExcludedColors(true); // 展开排除颜色列表
-                            // 滚动到颜色列表处
-                            setTimeout(() => {
-                              const listElement = document.querySelector('.color-stats-panel');
-                              if (listElement) {
-                                listElement.scrollIntoView({ behavior: 'smooth' });
-                              }
-                            }, 100);
-                          }}
-                          className="mt-2 ml-2 text-xs py-1 px-2 bg-yellow-200 dark:bg-yellow-700/60 text-yellow-900 dark:text-yellow-200 rounded hover:bg-yellow-300 dark:hover:bg-yellow-600/70 transition-colors"
-                      >
-                          查看已排除颜色 ({excludedColorKeys.size})
-                      </button>
-                  )}
-             </div>
-         )}
-
-        {/* ++ RENDER Enter Manual Mode Button ONLY when NOT in manual mode (before downloads) ++ */}
-        {!isManualColoringMode && originalImageSrc && mappedPixelData && gridDimensions && (
-            <div className="w-full md:max-w-2xl mt-4 space-y-3"> {/* Wrapper div */} 
-             {/* Manual Edit Mode Button */}
-             <button
-                onClick={() => {
-                  setIsManualColoringMode(true); // Enter mode
-                  setSelectedColor(null);
-                  setTooltipData(null);
-                }}
-                className={`w-full py-2.5 px-4 text-sm sm:text-base rounded-lg transition-all duration-300 flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-md hover:shadow-lg hover:translate-y-[-1px]`}
-              >
-                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"> <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /> </svg>
-                 进入手动编辑模式
-             </button>
-
-             {/* Focus Mode Button */}
-             <button
-                onClick={handleEnterFocusMode}
-                className={`w-full py-2.5 px-4 text-sm sm:text-base rounded-lg transition-all duration-300 flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-md hover:shadow-lg hover:translate-y-[-1px]`}
-              >
-                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                 </svg>
-                 进入专心拼豆模式（AplhaTest）
-             </button>
+              )}
             </div>
-        )} {/* ++ End of RENDER Enter Manual Mode Button ++ */}
-
-        {/* ++ HIDE Download Buttons in manual mode ++ */}
-        {!isManualColoringMode && originalImageSrc && mappedPixelData && (
-            <div className="w-full md:max-w-2xl mt-4">
-              {/* 使用一个大按钮，现在所有的下载设置都通过弹窗控制 */}
-              <button
-                onClick={() => setIsDownloadSettingsOpen(true)}
-                disabled={!mappedPixelData || !gridDimensions || gridDimensions.N === 0 || gridDimensions.M === 0 || activeBeadPalette.length === 0}
-                className="w-full py-2.5 px-4 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm sm:text-base rounded-lg hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg hover:translate-y-[-1px] disabled:hover:translate-y-0 disabled:hover:shadow-md"
-               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                下载拼豆图纸
-              </button>
-            </div>
-        )} {/* ++ End of HIDE Download Buttons ++ */}
-
-         {/* Tooltip Display (Needs update in GridTooltip.tsx) */}
-         {tooltipData && (
-            <GridTooltip tooltipData={tooltipData} selectedColorSystem={selectedColorSystem} />
           )}
+        </main>
 
-      </main>
+        {/* Right sidebar - Color Stats */}
+        <aside className="space-y-4">
+          {!originalImageSrc ? (
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-700">
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">上传图片后将显示颜色统计</p>
+            </div>
+          ) : !colorCounts || Object.keys(colorCounts).length === 0 ? (
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md border border-gray-100 dark:border-gray-700">
+              <p className="text-sm text-gray-500 dark:text-gray-400 text-center">处理中...</p>
+            </div>
+          ) : (
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden">
+              <div className="p-3 border-b border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                <h3 className="font-semibold text-gray-800 dark:text-gray-200">颜色统计</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400">点击排除颜色，总计 {totalBeadCount} 颗</p>
+              </div>
 
-      {/* 悬浮工具栏 */}
+              <div className="max-h-[calc(100vh-280px)] overflow-y-auto p-2">
+                <ul className="space-y-1">
+                  {Object.keys(colorCounts)
+                    .sort(sortColorKeys)
+                    .map((hexKey) => {
+                      const displayColorKey = getColorKeyByHex(hexKey, selectedColorSystem);
+                      const isExcluded = excludedColorKeys.has(hexKey);
+                      const count = colorCounts[hexKey].count;
+                      const colorHex = colorCounts[hexKey].color;
+
+                      return (
+                        <li
+                          key={hexKey}
+                          onClick={() => handleToggleExcludeColor(hexKey)}
+                          className={`flex items-center justify-between p-2 rounded cursor-pointer transition-colors ${
+                            isExcluded
+                              ? 'bg-red-50 dark:bg-red-900/30 opacity-60'
+                              : 'hover:bg-gray-50 dark:hover:bg-gray-700'
+                          }`}
+                        >
+                          <div className={`flex items-center gap-2 ${isExcluded ? 'line-through' : ''}`}>
+                            <span
+                              className="inline-block w-5 h-5 rounded border border-gray-300 dark:border-gray-600 flex-shrink-0"
+                              style={{ backgroundColor: isExcluded ? '#666' : colorHex }}
+                            ></span>
+                            <span className={`font-mono text-sm ${isExcluded ? 'text-red-600 dark:text-red-400' : 'text-gray-800 dark:text-gray-200'}`}>
+                              {displayColorKey}
+                            </span>
+                          </div>
+                          <span className={`text-xs ${isExcluded ? 'text-red-500 dark:text-red-400' : 'text-gray-500 dark:text-gray-400'}`}>
+                            {count}
+                          </span>
+                        </li>
+                      );
+                    })}
+                </ul>
+              </div>
+
+              {excludedColorKeys.size > 0 && (
+                <div className="p-2 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                  <button
+                    onClick={() => {
+                      setExcludedColorKeys(new Set());
+                      setRemapTrigger(prev => prev + 1);
+                    }}
+                    className="w-full py-1.5 text-xs text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded transition-colors"
+                  >
+                    恢复所有颜色 ({excludedColorKeys.size})
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </aside>
+      </div>
+      {/* Floating Toolbar - Manual Mode Only */}
       <FloatingToolbar
         isManualColoringMode={isManualColoringMode}
         isPaletteOpen={isFloatingPaletteOpen}
@@ -2458,10 +2293,7 @@ export default function Home() {
           setSelectedColor(null);
           setTooltipData(null);
           setIsEraseMode(false);
-          setColorReplaceState({
-            isActive: false,
-            step: 'select-source'
-          });
+          setColorReplaceState({ isActive: false, step: 'select-source' });
           setHighlightColorKey(null);
           setIsMagnifierActive(false);
           setMagnifierSelectionArea(null);
@@ -2470,7 +2302,7 @@ export default function Home() {
         isMagnifierActive={isMagnifierActive}
       />
 
-      {/* 悬浮调色盘 */}
+      {/* Floating Color Palette */}
       {isManualColoringMode && (
         <FloatingColorPalette
           colors={currentGridColors}
@@ -2493,7 +2325,7 @@ export default function Home() {
         />
       )}
 
-      {/* 放大镜工具 */}
+      {/* Magnifier Tools */}
       {isManualColoringMode && (
         <>
           <MagnifierTool
@@ -2511,8 +2343,6 @@ export default function Home() {
             onActivateFloating={handleActivateMagnifier}
             highlightColorKey={highlightColorKey}
           />
-          
-          {/* 放大镜选择覆盖层 */}
           <MagnifierSelectionOverlay
             isActive={isMagnifierActive && !magnifierSelectionArea}
             canvasRef={pixelatedCanvasRef}
@@ -2523,18 +2353,12 @@ export default function Home() {
         </>
       )}
 
-      {/* Apply dark mode styles to the Footer */}
-      <footer className="w-full md:max-w-4xl mt-10 mb-6 py-6 text-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-800/50 rounded-lg shadow-inner">
-
-        {/* Donation button styles are likely fine */}
-        {/* Copyright text color */}
-        <p className="font-medium text-gray-600 dark:text-gray-300">
-          拼豆底稿生成器 &copy; {new Date().getFullYear()}
-        </p>
+      {/* Footer - simplified */}
+      <footer className="w-full py-4 text-center text-xs text-gray-500 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 mt-auto">
+        <p>拼豆底稿生成器 &copy; {new Date().getFullYear()}</p>
       </footer>
 
-
-      {/* 使用导入的下载设置弹窗组件 */}
+      {/* Download Settings Modal */}
       <DownloadSettingsModal 
         isOpen={isDownloadSettingsOpen}
         onClose={() => setIsDownloadSettingsOpen(false)}
