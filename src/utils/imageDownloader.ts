@@ -229,10 +229,6 @@ export async function downloadImage({
     return;
   }
   
-  // 加载二维码图片
-  const qrCodeImage = new Image();
-  qrCodeImage.src = '/website_qrcode.png'; // 使用public目录中的图片
-  
   // 主要下载处理函数
   const processDownload = () => {
     const { N, M } = gridDimensions; // 此时已确保gridDimensions不为null
@@ -266,10 +262,7 @@ export async function downloadImage({
     // 计算网格尺寸
     const gridWidth = N * downloadCellSize;
     const gridHeight = M * downloadCellSize;
-    
-    // 计算小红书标识区域的高度
-    const xiaohongshuAreaHeight = 35; // 为小红书名字预留的底部空间
-  
+
     // 计算标题栏高度（根据图片大小自动调整）
     const baseTitleBarHeight = 80; // 增大基础高度
     
@@ -281,10 +274,7 @@ export async function downloadImage({
     
     // 计算标题文字大小 - 与总体宽度相关而不是单元格大小
     const titleFontSize = Math.max(28, Math.floor(28 * titleBarScale)); // 最小28px，确保可读性
-    
-    // 计算二维码大小
-    const qrSize = Math.floor(titleBarHeight * 0.85); // 增大二维码比例
-    
+
     // 计算统计区域的大小
     if (includeStats && colorCounts) {
       const colorKeys = Object.keys(colorCounts);
@@ -320,9 +310,9 @@ export async function downloadImage({
       statsHeight = titleHeight + (numRows * statsRowHeight) + footerHeight + (statsPadding * 2) + statsTopMargin;
     }
   
-    // 调整画布大小，包含标题栏、坐标轴、统计区域和小红书标识区域（四边都有坐标）
+    // 调整画布大小，包含标题栏、坐标轴、统计区域（四边都有坐标）
     const downloadWidth = gridWidth + (axisLabelSize * 2) + extraLeftMargin + extraRightMargin;
-    let downloadHeight = titleBarHeight + gridHeight + (axisLabelSize * 2) + statsHeight + extraTopMargin + extraBottomMargin + xiaohongshuAreaHeight;
+    let downloadHeight = titleBarHeight + gridHeight + (axisLabelSize * 2) + statsHeight + extraTopMargin + extraBottomMargin;
   
     let downloadCanvas = document.createElement('canvas');
     downloadCanvas.width = downloadWidth;
@@ -398,7 +388,7 @@ export async function downloadImage({
     const titleStartX = brandBlockWidth + titleBarHeight * 0.3;
     const mainTitleY = titleBarHeight * 0.4;
     
-    ctx.fillText('七卡瓦', titleStartX, mainTitleY);
+    ctx.fillText('拼豆生成器', titleStartX, mainTitleY);
     
     // 5. 副标题 - 功能说明
     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
@@ -417,36 +407,7 @@ export async function downloadImage({
     ctx.moveTo(0, separatorY);
     ctx.lineTo(downloadWidth, separatorY);
     ctx.stroke();
-    
-    // 8. 二维码区域 - 重新设计
-    const qrX = downloadWidth - qrSize - titleBarHeight * 0.15;
-    const qrY = (titleBarHeight - qrSize) / 2;
-    
-    // 二维码背景 - 圆角，更现代
-    ctx.fillStyle = '#FFFFFF';
-    ctx.beginPath();
-    ctx.roundRect(qrX, qrY, qrSize, qrSize, qrSize * 0.08);
-    ctx.fill();
-    
-    // 绘制二维码图片或占位符
-    if (qrCodeImage.complete && qrCodeImage.naturalWidth !== 0) {
-      // 使用裁剪区域绘制圆角二维码
-      ctx.save();
-      ctx.beginPath();
-      ctx.roundRect(qrX, qrY, qrSize, qrSize, qrSize * 0.08);
-      ctx.clip();
-      ctx.drawImage(qrCodeImage, qrX, qrY, qrSize, qrSize);
-      ctx.restore();
-    } else {
-      // 占位符设计
-      ctx.fillStyle = '#6366F1';
-      const qrPlaceholderFontSize = Math.max(10, Math.floor(14 * titleBarScale));
-      ctx.font = `500 ${qrPlaceholderFontSize}px system-ui, -apple-system, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('扫码访问', qrX + qrSize / 2, qrY + qrSize / 2);
-    }
-  
+
     console.log(`Generating download grid image: ${downloadWidth}x${downloadHeight}`);
     const fontSize = Math.max(8, Math.floor(downloadCellSize * 0.4));
     
@@ -621,7 +582,7 @@ export async function downloadImage({
 
     // 副水印：放在网格左上角，简洁版本
     const secondaryWatermarkFontSize = Math.max(10, Math.floor(downloadCellSize * 0.5));
-    const secondaryText = '@七卡瓦';
+    const secondaryText = '@拼豆生成器';
     
     ctx.font = `500 ${secondaryWatermarkFontSize}px system-ui, -apple-system, sans-serif`;
     const secondaryMetrics = ctx.measureText(secondaryText);
@@ -747,7 +708,7 @@ export async function downloadImage({
       
       // 统计区域水印 - 第三重保护，清晰明显
       const statsWatermarkFontSize = Math.max(10, Math.floor(statsFontSize * 0.7));
-      const statsWatermarkText = '图纸来源：小红书@七卡瓦';
+      const statsWatermarkText = '拼豆底稿生成器';
       
       ctx.font = `500 ${statsWatermarkFontSize}px system-ui, -apple-system, sans-serif`;
       const statsTextMetrics = ctx.measureText(statsWatermarkText);
@@ -788,8 +749,8 @@ export async function downloadImage({
 
     // 重新计算画布高度并调整
     if (includeStats && colorCounts) {
-      // 调整画布大小，包含计算后的统计区域和小红书标识区域
-      const newDownloadHeight = titleBarHeight + extraTopMargin + M * downloadCellSize + (axisLabelSize * 2) + statsHeight + extraBottomMargin + xiaohongshuAreaHeight;
+      // 调整画布大小，包含计算后的统计区域
+      const newDownloadHeight = titleBarHeight + extraTopMargin + M * downloadCellSize + (axisLabelSize * 2) + statsHeight + extraBottomMargin;
       
       if (downloadHeight !== newDownloadHeight) {
         // 如果高度变化了，需要创建新的画布并复制当前内容
@@ -838,15 +799,7 @@ export async function downloadImage({
       alert("无法生成图纸下载链接。");
     }
   };
-  
-  // 图片加载后处理，或在加载失败时使用占位符
-  if (qrCodeImage.complete) {
-    processDownload();
-  } else {
-    qrCodeImage.onload = processDownload;
-    qrCodeImage.onerror = () => {
-      console.warn("二维码图片加载失败，将使用占位符");
-      processDownload();
-    };
-  }
+
+  // 直接开始处理下载
+  processDownload();
 } 
