@@ -314,18 +314,20 @@ export async function downloadImage({
     const downloadWidth = gridWidth + (axisLabelSize * 2) + extraLeftMargin + extraRightMargin;
     let downloadHeight = titleBarHeight + gridHeight + (axisLabelSize * 2) + statsHeight + extraTopMargin + extraBottomMargin;
   
+    const scale = 2; // 2x resolution for sharp PNG output
     let downloadCanvas = document.createElement('canvas');
-    downloadCanvas.width = downloadWidth;
-    downloadCanvas.height = downloadHeight;
+    downloadCanvas.width = downloadWidth * scale;
+    downloadCanvas.height = downloadHeight * scale;
     const context = downloadCanvas.getContext('2d');
     if (!context) {
       console.error("下载失败: 无法创建临时 Canvas Context。");
       alert("无法下载图纸。");
       return;
     }
-    
+
     // 使用非空的context变量
     let ctx = context;
+    ctx.scale(scale, scale); // Scale all drawing for high-DPI output
     ctx.imageSmoothingEnabled = false;
   
     // 设置背景色
@@ -755,8 +757,8 @@ export async function downloadImage({
       if (downloadHeight !== newDownloadHeight) {
         // 如果高度变化了，需要创建新的画布并复制当前内容
         const newCanvas = document.createElement('canvas');
-        newCanvas.width = downloadWidth;
-        newCanvas.height = newDownloadHeight;
+        newCanvas.width = downloadWidth * scale;
+        newCanvas.height = newDownloadHeight * scale;
         const newContext = newCanvas.getContext('2d');
         
         if (newContext) {
@@ -797,6 +799,189 @@ export async function downloadImage({
     } catch (e) {
       console.error("下载图纸失败:", e);
       alert("无法生成图纸下载链接。");
+    }
+
+    // SVG矢量图导出
+    try {
+      const escXml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const svgParts: string[] = [];
+
+      svgParts.push(`<svg xmlns="http://www.w3.org/2000/svg" width="${downloadWidth}" height="${downloadHeight}" viewBox="0 0 ${downloadWidth} ${downloadHeight}">`);
+
+      // 渐变定义
+      const brandBlockWidth = titleBarHeight * 0.8;
+      svgParts.push(`<defs>`);
+      svgParts.push(`  <linearGradient id="brandGrad" x1="0" y1="0" x2="${brandBlockWidth}" y2="${titleBarHeight}" gradientUnits="userSpaceOnUse">`);
+      svgParts.push(`    <stop offset="0%" stop-color="#6366F1"/>`);
+      svgParts.push(`    <stop offset="100%" stop-color="#8B5CF6"/>`);
+      svgParts.push(`  </linearGradient>`);
+      svgParts.push(`</defs>`);
+
+      // 白色背景
+      svgParts.push(`<rect width="${downloadWidth}" height="${downloadHeight}" fill="#FFFFFF"/>`);
+
+      // 标题栏背景
+      svgParts.push(`<rect width="${downloadWidth}" height="${titleBarHeight}" fill="#1F2937"/>`);
+      svgParts.push(`<rect width="${brandBlockWidth}" height="${titleBarHeight}" fill="url(#brandGrad)"/>`);
+
+      // Logo - 3x3拼豆阵列
+      const logoSize = titleBarHeight * 0.4;
+      const logoX = brandBlockWidth / 2;
+      const logoY = titleBarHeight / 2;
+      const beadSize = logoSize / 4;
+      const beadSpacing = beadSize * 1.2;
+      for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 3; col++) {
+          const bx = logoX - logoSize / 2 + col * beadSpacing;
+          const by = logoY - logoSize / 2 + row * beadSpacing;
+          const br = beadSize * 0.2;
+          svgParts.push(`<rect x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${beadSize.toFixed(1)}" height="${beadSize.toFixed(1)}" rx="${br.toFixed(1)}" ry="${br.toFixed(1)}" fill="#FFFFFF"/>`);
+          svgParts.push(`<circle cx="${(bx + beadSize / 2).toFixed(1)}" cy="${(by + beadSize / 2).toFixed(1)}" r="${(beadSize * 0.15).toFixed(1)}" fill="#6366F1" fill-opacity="0.3"/>`);
+        }
+      }
+
+      // 标题文字
+      const mainTitleFontSize = Math.max(20, Math.floor(titleFontSize * 0.8));
+      const subTitleFontSize = Math.max(12, Math.floor(titleFontSize * 0.45));
+      const titleStartX = brandBlockWidth + titleBarHeight * 0.3;
+      svgParts.push(`<text x="${titleStartX.toFixed(1)}" y="${(titleBarHeight * 0.4).toFixed(1)}" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-size="${mainTitleFontSize}" font-weight="600" fill="#FFFFFF">拼豆生成器</text>`);
+      svgParts.push(`<text x="${titleStartX.toFixed(1)}" y="${(titleBarHeight * 0.65).toFixed(1)}" dominant-baseline="middle" font-family="system-ui, -apple-system, sans-serif" font-size="${subTitleFontSize}" font-weight="400" fill="#FFFFFF" fill-opacity="0.8">拼豆图纸生成工具</text>`);
+      svgParts.push(`<line x1="0" y1="${titleBarHeight - 1}" x2="${downloadWidth}" y2="${titleBarHeight - 1}" stroke="#FFFFFF" stroke-opacity="0.1" stroke-width="1"/>`);
+
+      // 坐标轴
+      if (showCoordinates) {
+        const axisFontSize = 14;
+        svgParts.push(`<rect x="${extraLeftMargin + axisLabelSize}" y="${titleBarHeight + extraTopMargin}" width="${gridWidth}" height="${axisLabelSize}" fill="#F5F5F5"/>`);
+        svgParts.push(`<rect x="${extraLeftMargin + axisLabelSize}" y="${titleBarHeight + extraTopMargin + axisLabelSize + gridHeight}" width="${gridWidth}" height="${axisLabelSize}" fill="#F5F5F5"/>`);
+        svgParts.push(`<rect x="${extraLeftMargin}" y="${titleBarHeight + extraTopMargin + axisLabelSize}" width="${axisLabelSize}" height="${gridHeight}" fill="#F5F5F5"/>`);
+        svgParts.push(`<rect x="${extraLeftMargin + axisLabelSize + gridWidth}" y="${titleBarHeight + extraTopMargin + axisLabelSize}" width="${axisLabelSize}" height="${gridHeight}" fill="#F5F5F5"/>`);
+
+        for (let i = 0; i < N; i++) {
+          if ((i + 1) % gridInterval === 0 || i === 0 || i === N - 1) {
+            const nx = extraLeftMargin + axisLabelSize + i * downloadCellSize + downloadCellSize / 2;
+            svgParts.push(`<text x="${nx}" y="${titleBarHeight + extraTopMargin + axisLabelSize / 2}" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="${axisFontSize}" fill="#333333">${i + 1}</text>`);
+            svgParts.push(`<text x="${nx}" y="${titleBarHeight + extraTopMargin + axisLabelSize + gridHeight + axisLabelSize / 2}" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="${axisFontSize}" fill="#333333">${i + 1}</text>`);
+          }
+        }
+        for (let j = 0; j < M; j++) {
+          if ((j + 1) % gridInterval === 0 || j === 0 || j === M - 1) {
+            const ny = titleBarHeight + extraTopMargin + axisLabelSize + j * downloadCellSize + downloadCellSize / 2;
+            svgParts.push(`<text x="${extraLeftMargin + axisLabelSize / 2}" y="${ny}" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="${axisFontSize}" fill="#333333">${j + 1}</text>`);
+            svgParts.push(`<text x="${extraLeftMargin + axisLabelSize + gridWidth + axisLabelSize / 2}" y="${ny}" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="${axisFontSize}" fill="#333333">${j + 1}</text>`);
+          }
+        }
+
+        const ax1 = extraLeftMargin + axisLabelSize;
+        const ax2 = ax1 + gridWidth;
+        const ay1 = titleBarHeight + extraTopMargin + axisLabelSize;
+        const ay2 = ay1 + gridHeight;
+        svgParts.push(`<line x1="${ax1}" y1="${ay1}" x2="${ax2}" y2="${ay1}" stroke="#AAAAAA" stroke-width="1"/>`);
+        svgParts.push(`<line x1="${ax1}" y1="${ay2}" x2="${ax2}" y2="${ay2}" stroke="#AAAAAA" stroke-width="1"/>`);
+        svgParts.push(`<line x1="${ax1}" y1="${ay1}" x2="${ax1}" y2="${ay2}" stroke="#AAAAAA" stroke-width="1"/>`);
+        svgParts.push(`<line x1="${ax2}" y1="${ay1}" x2="${ax2}" y2="${ay2}" stroke="#AAAAAA" stroke-width="1"/>`);
+      }
+
+      // 单元格
+      const cellFontSize = Math.max(8, Math.floor(downloadCellSize * 0.4));
+      for (let j = 0; j < M; j++) {
+        for (let i = 0; i < N; i++) {
+          const cellData = mappedPixelData[j][i];
+          const drawX = extraLeftMargin + i * downloadCellSize + axisLabelSize;
+          const drawY = titleBarHeight + extraTopMargin + j * downloadCellSize + axisLabelSize;
+          if (cellData && !cellData.isExternal) {
+            const cellColor = cellData.color || '#FFFFFF';
+            svgParts.push(`<rect x="${drawX}" y="${drawY}" width="${downloadCellSize}" height="${downloadCellSize}" fill="${cellColor}" stroke="#DDDDDD" stroke-width="0.5"/>`);
+            if (showCellNumbers) {
+              const cellKey = escXml(getDisplayColorKey(cellData.color || '#FFFFFF', selectedColorSystem));
+              const textColor = getContrastColor(cellColor);
+              svgParts.push(`<text x="${drawX + downloadCellSize / 2}" y="${drawY + downloadCellSize / 2}" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="${cellFontSize}" font-weight="bold" fill="${textColor}">${cellKey}</text>`);
+            }
+          } else {
+            svgParts.push(`<rect x="${drawX}" y="${drawY}" width="${downloadCellSize}" height="${downloadCellSize}" fill="#FFFFFF" stroke="#DDDDDD" stroke-width="0.5"/>`);
+          }
+        }
+      }
+
+      // 间隔网格线
+      if (showGrid) {
+        const gridY1 = titleBarHeight + extraTopMargin + axisLabelSize;
+        const gridY2 = gridY1 + M * downloadCellSize;
+        const gridX1 = extraLeftMargin + axisLabelSize;
+        const gridX2 = gridX1 + N * downloadCellSize;
+        for (let i = gridInterval; i < N; i += gridInterval) {
+          const lx = extraLeftMargin + i * downloadCellSize + axisLabelSize;
+          svgParts.push(`<line x1="${lx}" y1="${gridY1}" x2="${lx}" y2="${gridY2}" stroke="${escXml(gridLineColor)}" stroke-width="1.5"/>`);
+        }
+        for (let j = gridInterval; j < M; j += gridInterval) {
+          const ly = titleBarHeight + extraTopMargin + j * downloadCellSize + axisLabelSize;
+          svgParts.push(`<line x1="${gridX1}" y1="${ly}" x2="${gridX2}" y2="${ly}" stroke="${escXml(gridLineColor)}" stroke-width="1.5"/>`);
+        }
+      }
+
+      // 外边框
+      svgParts.push(`<rect x="${extraLeftMargin + axisLabelSize}" y="${titleBarHeight + extraTopMargin + axisLabelSize}" width="${N * downloadCellSize}" height="${M * downloadCellSize}" fill="none" stroke="#000000" stroke-width="1.5"/>`);
+
+      // 水印
+      const wmFontSize = Math.max(10, Math.floor(downloadCellSize * 0.5));
+      const wmX = extraLeftMargin + axisLabelSize + 15;
+      const wmY = titleBarHeight + extraTopMargin + axisLabelSize + wmFontSize + 15;
+      svgParts.push(`<rect x="${wmX - 4}" y="${wmY - wmFontSize - 4}" width="${wmFontSize * 7}" height="${wmFontSize + 8}" rx="3" ry="3" fill="#FFFFFF" fill-opacity="0.75"/>`);
+      svgParts.push(`<text x="${wmX}" y="${wmY}" font-family="system-ui, sans-serif" font-size="${wmFontSize}" font-weight="500" fill="#6B7280">@拼豆生成器</text>`);
+
+      // 颜色统计
+      if (includeStats && colorCounts) {
+        const colorKeys = Object.keys(colorCounts).sort(sortColorKeys);
+        const statsTopMargin = 24;
+        const svgStatsY = titleBarHeight + extraTopMargin + M * downloadCellSize + axisLabelSize * 2 + statsPadding + statsTopMargin;
+        const availableStatsWidth = downloadWidth - statsPadding * 2;
+        const renderNumColumns = Math.max(1, Math.min(4, Math.floor(availableStatsWidth / 250)));
+        const swatchSize = Math.floor(18 + widthFactor * 20);
+        const titleHeight = 30;
+        const statsRowHeight = Math.max(swatchSize + 8, 25);
+        const itemWidth = Math.floor(availableStatsWidth / renderNumColumns);
+
+        svgParts.push(`<line x1="${statsPadding}" y1="${svgStatsY + 20}" x2="${downloadWidth - statsPadding}" y2="${svgStatsY + 20}" stroke="#DDDDDD" stroke-width="1"/>`);
+
+        colorKeys.forEach((key, index) => {
+          const colIdx = index % renderNumColumns;
+          const rowIdx = Math.floor(index / renderNumColumns);
+          const itemX = statsPadding + colIdx * itemWidth;
+          const rowY = svgStatsY + titleHeight + rowIdx * statsRowHeight + swatchSize / 2;
+          const cellData = colorCounts[key];
+          svgParts.push(`<rect x="${itemX}" y="${rowY - swatchSize / 2}" width="${swatchSize}" height="${swatchSize}" fill="${cellData.color}" stroke="#CCCCCC" stroke-width="1"/>`);
+          const displayKey = escXml(getColorKeyByHex(key, selectedColorSystem));
+          svgParts.push(`<text x="${itemX + swatchSize + 5}" y="${rowY}" dominant-baseline="middle" font-family="sans-serif" font-size="${statsFontSize}" fill="#333333">${displayKey}</text>`);
+          const countText = `${cellData.count} 颗`;
+          if (renderNumColumns === 1) {
+            svgParts.push(`<text x="${downloadWidth - statsPadding}" y="${rowY}" text-anchor="end" dominant-baseline="middle" font-family="sans-serif" font-size="${statsFontSize}" fill="#333333">${countText}</text>`);
+          } else {
+            svgParts.push(`<text x="${itemX + itemWidth - 10}" y="${rowY}" text-anchor="end" dominant-baseline="middle" font-family="sans-serif" font-size="${statsFontSize}" fill="#333333">${countText}</text>`);
+          }
+        });
+
+        const numRows = Math.ceil(colorKeys.length / renderNumColumns);
+        const totalY = svgStatsY + titleHeight + numRows * statsRowHeight + 10;
+        svgParts.push(`<text x="${downloadWidth - statsPadding}" y="${totalY}" text-anchor="end" font-family="sans-serif" font-size="${statsFontSize}" font-weight="bold" fill="#333333">总计: ${totalBeadCount} 颗</text>`);
+        const swmFontSize = Math.max(10, Math.floor(statsFontSize * 0.7));
+        svgParts.push(`<text x="${statsPadding}" y="${totalY + 20}" font-family="system-ui, sans-serif" font-size="${swmFontSize}" font-weight="500" fill="#64748B">拼豆底稿生成器</text>`);
+      }
+
+      svgParts.push(`</svg>`);
+
+      const svgBlob = new Blob([svgParts.join('\n')], { type: 'image/svg+xml;charset=utf-8' });
+      const svgUrl = URL.createObjectURL(svgBlob);
+      const svgLink = document.createElement('a');
+      svgLink.download = showCellNumbers
+        ? `bead-grid-${N}x${M}-keys-palette_${selectedColorSystem}.svg`
+        : `bead-grid-${N}x${M}-pixel-palette_${selectedColorSystem}.svg`;
+      svgLink.href = svgUrl;
+      document.body.appendChild(svgLink);
+      svgLink.click();
+      document.body.removeChild(svgLink);
+      URL.revokeObjectURL(svgUrl);
+      console.log("SVG download initiated.");
+    } catch (svgError) {
+      console.error("SVG生成失败:", svgError);
     }
   };
 

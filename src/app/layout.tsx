@@ -50,7 +50,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-[#FFF5F7] dark:bg-[#2D1F3A] text-[#4A3856] dark:text-[#E8D5EC]`}
       >
         {children}
         <Analytics />
